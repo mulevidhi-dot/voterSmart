@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - VoteSmart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .admin-page {
+            max-width: 1250px;
+            margin: auto;
+            padding: 50px 7% 80px;
+        }
+
+        .admin-page > h1 {
+            text-align: center;
+            margin-bottom: 35px;
+            font-size: 42px;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+            margin-bottom: 45px;
+        }
+
+        .admin-stat {
+            text-align: center;
+            min-height: 160px;
+        }
+
+        .admin-stat h2 {
+            font-size: 42px;
+            margin-top: 10px;
+        }
+
+        .admin-section-title {
+            font-size: 30px;
+            margin: 35px 0 18px;
+        }
+
+        .admin-table-wrap {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            overflow-x: auto;
+            margin-bottom: 45px;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 15px 14px;
+            border-bottom: 1px solid #edf0f7;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .admin-table th {
+            background: #f7f9ff;
+            color: #172033;
+        }
+
+        .admin-table td {
+            color: #53627a;
+        }
+
+        .answer-cell {
+            min-width: 180px;
+            line-height: 1.45;
+        }
+
+        .answer-cell strong {
+            color: #172033;
+        }
+
+        .score-badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 8px;
+            background: #eef2ff;
+            color: #4055d8;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .feedback-summary {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 24px;
+            margin-bottom: 35px;
+        }
+
+        .feedback-average {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            padding: 28px;
+            text-align: center;
+        }
+
+        .feedback-average .big-rating {
+            font-size: 46px;
+            font-weight: 700;
+            color: #172033;
+            margin: 10px 0 4px;
+        }
+
+        .feedback-average .stars {
+            font-size: 22px;
+        }
+
+        .feedback-chart {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            padding: 25px 30px;
+        }
+
+        .rating-row {
+            display: grid;
+            grid-template-columns: 90px 1fr 70px;
+            align-items: center;
+            gap: 14px;
+            margin: 13px 0;
+        }
+
+        .rating-label {
+            font-weight: 600;
+            color: #34445c;
+        }
+
+        .rating-track {
+            height: 18px;
+            background: #edf0f7;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .rating-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6c63ff, #8f87ff);
+            border-radius: 999px;
+        }
+
+        .rating-value {
+            text-align: right;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .rating-count {
+            color: #687386;
+            font-size: 13px;
+            margin-left: 4px;
+        }
+
+        .feedback-card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            margin-bottom: 15px;
+        }
+
+        .feedback-meta {
+            color: #687386;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .feedback-message {
+            color: #34445c;
+            white-space: pre-wrap;
+        }
+
+        .empty-message {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            color: #687386;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        }
+
+        @media (max-width: 700px) {
+            .feedback-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .rating-row {
+                grid-template-columns: 80px 1fr 60px;
+                gap: 8px;
+            }
+
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-page > h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">🗳️ VoteSmart Admin</div>
+    <div class="nav-links">
+        <a href="/">View Website</a>
+        <a href="/feedback">Feedback Form</a>
+    </div>
+</nav>
+
+<main class="admin-page">
+
+    <h1>🔐 Admin Dashboard</h1>
+
+    <div class="admin-grid">
+        <div class="feature-card admin-stat">
+            <div class="feature-icon">🧠</div>
+            <h3>Quiz Attempts</h3>
+            <h2>{{ quiz_count }}</h2>
+        </div>
+
+        <div class="feature-card admin-stat">
+            <div class="feature-icon">💬</div>
+            <h3>Feedback</h3>
+            <h2>{{ feedback_count }}</h2>
+        </div>
+    </div>
+
+    <h2 class="admin-section-title">🧠 Individual Quiz Responses</h2>
+
+    {% if results %}
+    <div class="admin-table-wrap">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Person</th>
+                    <th>Q1 Answer</th>
+                    <th>Q2 Answer</th>
+                    <th>Q3 Answer</th>
+                    <th>Q4 Answer</th>
+                    <th>Q5 Answer</th>
+                    <th>Score</th>
+                    <th>Percentage</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for result in results %}
+                <tr>
+                    <td><strong>{{ result["name"] }}</strong></td>
+
+                    <td class="answer-cell">
+                        {% if result["q1"] %}
+                            <strong>{{ result["q1"]|upper }}</strong> —
+                            {% if result["q1"] == "a" %}It has no purpose
+                            {% elif result["q1"] == "b" %}It allows citizens to participate in the democratic process
+                            {% elif result["q1"] == "c" %}Only politicians benefit
+                            {% elif result["q1"] == "d" %}It is only for government employees
+                            {% endif %}
+                        {% else %}
+                            Not recorded for this older attempt
+                        {% endif %}
+                    </td>
+
+                    <td class="answer-cell">
+                        {% if result["q2"] %}
+                            <strong>{{ result["q2"]|upper }}</strong> —
+                            {% if result["q2"] == "a" %}Official election sources
+                            {% elif result["q2"] == "b" %}Random social media posts
+                            {% elif result["q2"] == "c" %}Unknown forwarded messages
+                            {% elif result["q2"] == "d" %}Unverified websites
+                            {% endif %}
+                        {% else %}
+                            Not recorded for this older attempt
+                        {% endif %}
+                    </td>
+
+                    <td class="answer-cell">
+                        {% if result["q3"] %}
+                            <strong>{{ result["q3"]|upper }}</strong> —
+                            {% if result["q3"] == "a" %}Forward it immediately
+                            {% elif result["q3"] == "b" %}Ignore all information
+                            {% elif result["q3"] == "c" %}Verify it using reliable sources
+                            {% elif result["q3"] == "d" %}Change the message
+                            {% endif %}
+                        {% else %}
+                            Not recorded for this older attempt
+                        {% endif %}
+                    </td>
+
+                    <td class="answer-cell">
+                        {% if result["q4"] %}
+                            <strong>{{ result["q4"]|upper }}</strong> —
+                            {% if result["q4"] == "a" %}Someone who shares rumours
+                            {% elif result["q4"] == "b" %}Someone who seeks reliable information
+                            {% elif result["q4"] == "c" %}Someone who avoids all information
+                            {% elif result["q4"] == "d" %}Someone who forwards everything
+                            {% endif %}
+                        {% else %}
+                            Not recorded for this older attempt
+                        {% endif %}
+                    </td>
+
+                    <td class="answer-cell">
+                        {% if result["q5"] %}
+                            <strong>{{ result["q5"]|upper }}</strong> —
+                            {% if result["q5"] == "a" %}Their personal information
+                            {% elif result["q5"] == "b" %}Rumours
+                            {% elif result["q5"] == "c" %}Fake news
+                            {% elif result["q5"] == "d" %}Unverified links
+                            {% endif %}
+                        {% else %}
+                            Not recorded for this older attempt
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <span class="score-badge">
+                            {{ result["score"] }}/{{ result["total"] }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <strong>
+                            {{ ((result["score"] * 100.0) / result["total"])|round(1) }}%
+                        </strong>
+                    </td>
+
+                    <td>{{ result["created_at"] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <div class="empty-message">No quiz attempts yet.</div>
+    {% endif %}
+
+    <h2 class="admin-section-title">📊 Feedback Analysis</h2>
+
+    <div class="feedback-summary">
+        <div class="feedback-average">
+            <div>Average Rating</div>
+            <div class="big-rating">{{ average_rating }}/5</div>
+            <div class="stars">
+                {% if average_rating >= 4.5 %}⭐⭐⭐⭐⭐
+                {% elif average_rating >= 3.5 %}⭐⭐⭐⭐
+                {% elif average_rating >= 2.5 %}⭐⭐⭐
+                {% elif average_rating >= 1.5 %}⭐⭐
+                {% elif average_rating > 0 %}⭐
+                {% else %}No ratings yet
+                {% endif %}
+            </div>
+            <p class="feedback-meta">{{ feedback_count }} total feedback responses</p>
+        </div>
+
+        <div class="feedback-chart">
+            <h3>Rating Distribution</h3>
+            <p class="feedback-meta">
+                Percentage of people giving each feedback rating.
+            </p>
+
+            {% for stat in rating_stats %}
+                <div class="rating-row">
+                    <div class="rating-label">
+                        {% for i in range(stat["rating"]) %}⭐{% endfor %}
+                    </div>
+
+                    <div class="rating-track">
+                        <div class="rating-fill"
+                             style="--rating-width: {{ stat['percentage'] }}%;"></div>
+                    </div>
+
+                    <div class="rating-value">
+                        {{ stat["percentage"] }}%
+                        <span class="rating-count">({{ stat["count"] }})</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <h2 class="admin-section-title">💬 Feedback Details</h2>
+
+    {% if feedbacks %}
+        {% for item in feedbacks %}
+            <div class="feedback-card">
+                <h3>{{ item["name"] }}</h3>
+
+                <div class="feedback-meta">
+                    {% if item["email"] %}
+                        {{ item["email"] }} ·
+                    {% endif %}
+                    Rating: {{ item["rating"] }}/5 ·
+                    {{ item["created_at"] }}
+                </div>
+
+                <p class="feedback-message">{{ item["message"] }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-message">No feedback submitted yet.</div>
+    {% endif %}
+
+</main>
+
+</body>
+</html>
