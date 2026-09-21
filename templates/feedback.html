@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - VoteSmart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">🗳️ VoteSmart</div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/voter-guide">Voter Guide</a>
+        <a href="/rights">Rights</a>
+        <a href="/quiz">Quiz</a>
+        <a href="/feedback">Feedback</a>
+    </div>
+</nav>
+
+<section class="features">
+
+{% if submitted %}
+
+    <div class="hero-card">
+        <h1>✅ Thank You!</h1>
+        <p>Your feedback has been submitted successfully.</p>
+        <br>
+        <a href="/" class="btn primary">Home</a>
+    </div>
+
+{% else %}
+
+    <h1>💬 Give Us Feedback</h1>
+    <p class="section-subtitle">
+        Tell us about your experience with VoteSmart.
+    </p>
+
+    <form method="POST">
+        <div class="feature-card feedback-form-card">
+
+            <label><strong>Your Name</strong></label>
+            <input type="text" name="name" placeholder="Your Name" required>
+
+            <label><strong>Email (optional)</strong></label>
+            <input type="email" name="email" placeholder="Your Email">
+
+            <label><strong>Your Feedback</strong></label>
+            <textarea name="message" placeholder="Write your feedback here..." required rows="6"></textarea>
+
+            <label><strong>Rating</strong></label>
+            <select name="rating" required>
+                <option value="">Select Rating</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="1">⭐</option>
+            </select>
+
+            <button type="submit" class="btn primary">
+                Submit Feedback
+            </button>
+        </div>
+    </form>
+
+{% endif %}
+
+</section>
+</body>
+</html>

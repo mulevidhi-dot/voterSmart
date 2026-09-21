@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Voter Rights - VoteSmart</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        /* =========================================
+           VOTER RIGHTS PAGE
+           ========================================= */
+
+        .rights-points {
+            border-top: 1px solid #d9e4f2;
+            padding-top: 12px;
+            margin-top: 14px;
+        }
+
+        .rights-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            margin-bottom: 10px;
+        }
+
+        .rights-point span {
+            flex-shrink: 0;
+            width: 19px;
+            height: 19px;
+            border-radius: 50%;
+            background: #4285f4;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 11px;
+            font-weight: bold;
+
+            margin-top: 2px;
+        }
+
+        .rights-point p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.4;
+            color: #506b8b;
+        }
+
+        .rights-point strong {
+            color: #1769e0;
+        }
+
+        /* =========================================
+           TOP 4 CARDS
+           ========================================= */
+
+        .top-rights-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .top-rights-grid .feature-card {
+            box-sizing: border-box;
+        }
+
+        /* =========================================
+           BOTTOM 4 CARDS
+           ========================================= */
+
+        .bottom-rights-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .bottom-rights-card {
+            min-height: 210px;
+            box-sizing: border-box;
+        }
+
+        .bottom-rights-card p {
+            line-height: 1.55;
+        }
+
+        /* =========================================
+           DID YOU KNOW CARD
+           ========================================= */
+
+        .did-you-know {
+            background: #fff8eb !important;
+        }
+
+        .did-you-know ul {
+            padding-left: 18px;
+            margin-top: 12px;
+        }
+
+        .did-you-know li {
+            margin-bottom: 8px;
+            color: #506b8b;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* =========================================
+           MOBILE / TABLET
+           ========================================= */
+
+        @media (max-width: 1100px) {
+
+            .top-rights-grid,
+            .bottom-rights-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .top-rights-grid,
+            .bottom-rights-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     NAVIGATION BAR
+     ========================================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🗳️ VoteSmart
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/voter-guide">
+            Voter Guide
+        </a>
+
+        <a href="/rights">
+            Rights
+        </a>
+
+        <a href="/quiz">
+            Quiz
+        </a>
+
+        <a href="/feedback">
+            Feedback
+        </a>
+
+        </div>
+
+</nav>
+
+
+
+<!-- =========================================
+     VOTER RIGHTS SECTION
+     ========================================= -->
+
+<section class="features">
+
+
+    <h1>
+        ⚖️ Voter Rights & Responsibilities
+    </h1>
+
+
+    <p class="section-subtitle">
+        Understanding democratic participation is
+        an important part of being an informed citizen.
+    </p>
+
+
+
+    <!-- =========================================
+         TOP ROW - 4 CARDS
+         ========================================= -->
+
+    <div class="top-rights-grid">
+
+
+        <!-- =====================================
+             1. RIGHT TO VOTE
+             ===================================== -->
+
+        <div class="feature-card">
+
+
+            <div class="feature-icon">
+                🏛️
+            </div>
+
+
+            <h3>
+                Right to Vote – Constitutional & Statutory Right
+            </h3>
+
+
+            <p>
+                In India, the right to vote is a
+                <strong>constitutional and statutory right</strong>,
+                rather than a Fundamental Right.
+            </p>
+
+
+            <div class="rights-points">
+
+
+                <div class="rights-point">
+
+                    <span>✓</span>
+
+                    <p>
+                        <strong>Article 326</strong> of the Constitution
+                        provides for elections to the Lok Sabha and State
+                        Legislative Assemblies on the basis of adult
+                        suffrage.
+                    </p>
+
+                </div>
+
+
+                <div class="rights-point">
+
+                    <span>✓</span>
+
+                    <p>
+                        Citizens who meet the legal eligibility
+                        requirements and are registered in the
+                        <strong>electoral roll</strong> can vote.
+                    </p>
+
+                </div>
+
+
+                <div class="rights-point">
+
+                    <span>✓</span>
+
+                    <p>
+                        The <strong>Representation of the People Acts,
+                        1950 and 1951</strong> provide the statutory
+                        framework for elections.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             2. BE INFORMED
+             ===================================== -->
+
+        <div class="feature-card">
+
+
+            <div class="feature-icon">
+                📚
+            </div>
+
+
+            <h3>
+                Be Informed
+            </h3>
+
+
+            <p>
+                Voters should seek reliable information
+                before making electoral decisions.
+            </p>
+
+
+            <div class="rights-points">
+
+
+                <div class="rights-point">
+
+                    <span>✓</span>
+
+                    <p>
+                        Check important election information
+                        from <strong>official ECI sources</strong>.
+                    </p>
+
+                </div>
+
+
+                <div class="rights-point">
+
+                    <span>✓</span>
+
+                    <p>
+                        Learn about candidates and important
+                        issues before voting.
+                    </p>
+
+                </div>
+
+
+                <div class="rights-point">
+
+                    <span>✓</span>
+
+                    <p>
+                        Compare information from
+                        <strong>trustworthy sources</strong>.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             3. PROTECT YOUR INFORMATION
+             ===================================== -->
+
+        <div class="feature-card">
+
+
+            <div class="feature-icon">
+                🔐
+            </div>
+
+
+            <h3>
+                Protect Your Information
+            </h3>
+
+
+            <p>
+                Avoid sharing sensitive personal information
+                with unknown websites or individuals.
+            </p>
+
+
+            <div class="rights-points">
+
+
+                <div class="rights-point">
+
+                    <span>✓</span>
+
+                    <p>
+                        Never share your
+                        <strong>OTP or password</strong>
+                        with anyone.
+                    </p>
+
+                </div>
+
+
+                <div class="rights-point">
+
+                    <span>✓</span>
+
+                    <p>
+                        Use only <strong>official election
+                        websites</strong> for voter services.
+                    </p>
+
+                </div>
+
+
+                <div class="rights-point">
+
+                    <span>✓</span>
+
+                    <p>
+                        Be careful of fake calls, messages
+                        and websites asking for personal details.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             4. REJECT MISINFORMATION
+             ===================================== -->
+
+        <div class="feature-card">
+
+
+            <div class="feature-icon">
+                🚫
+            </div>
+
+
+            <h3>
+                Reject Misinformation
+            </h3>
+
+
+            <p>
+                Verify election-related claims through
+                reliable and official sources.
+            </p>
+
+
+            <div class="rights-points">
+
+
+                <div class="rights-point">
+
+                    <span>✓</span>
+
+                    <p>
+                        Check the <strong>source and date</strong>
+                        before trusting information.
+                    </p>
+
+                </div>
+
+
+                <div class="rights-point">
+
+                    <span>✓</span>
+
+                    <p>
+                        Do not forward unverified election
+                        news on social media.
+                    </p>
+
+                </div>
+
+
+                <div class="rights-point">
+
+                    <span>✓</span>
+
+                    <p>
+                        Cross-check suspicious claims with
+                        <strong>official ECI information</strong>.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================================
+         BOTTOM ROW - 4 CARDS
+         ========================================= -->
+
+    <div class="bottom-rights-grid">
+
+
+        <!-- =====================================
+             5. EQUAL RIGHTS
+             ===================================== -->
+
+        <div class="feature-card bottom-rights-card"
+             style="background: #f8f3ff;">
+
+            <div class="feature-icon">
+                👥
+            </div>
+
+            <h3>
+                Equal Rights
+            </h3>
+
+            <p>
+                Every eligible voter has an equal opportunity
+                to participate in the electoral process,
+                without discrimination based on personal
+                characteristics such as caste, religion,
+                gender or language.
+            </p>
+
+        </div>
+
+
+
+        <!-- =====================================
+             6. FREE AND FAIR ELECTIONS
+             ===================================== -->
+
+        <div class="feature-card bottom-rights-card"
+             style="background: #effcf7;">
+
+            <div class="feature-icon">
+                🛡️
+            </div>
+
+            <h3>
+                Free and Fair Elections
+            </h3>
+
+            <p>
+                The Election Commission of India conducts
+                elections with the aim of ensuring a
+                transparent, impartial and well-managed
+                electoral process.
+            </p>
+
+        </div>
+
+
+
+        <!-- =====================================
+             7. YOUR RESPONSIBILITY
+             ===================================== -->
+
+        <div class="feature-card bottom-rights-card"
+             style="background: #f8f3ff;">
+
+            <div class="feature-icon">
+                🪪
+            </div>
+
+            <h3>
+                Your Responsibility
+            </h3>
+
+            <p>
+                Vote responsibly, follow election rules,
+                respect democratic values and encourage
+                others to participate in the electoral
+                process.
+            </p>
+
+        </div>
+
+
+
+        <!-- =====================================
+             8. DID YOU KNOW?
+             ===================================== -->
+
+        <div class="feature-card bottom-rights-card did-you-know">
+
+            <div class="feature-icon">
+                💡
+            </div>
+
+            <h3>
+                Did You Know?
+            </h3>
+
+
+            <ul>
+
+                <li>
+                    You can vote only once in a particular election.
+                </li>
+
+                <li>
+                    Your vote is secret and your choice is your own.
+                </li>
+
+                <li>
+                    You have the right to choose candidates based
+                    on your own views and beliefs.
+                </li>
+
+                <li>
+                    The Election Commission provides facilities
+                    for persons with disabilities and senior citizens.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================
+     FOOTER
+     ========================================= -->
+
+
+
+
+</body>
+
+</html>

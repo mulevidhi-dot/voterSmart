@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Voter Quiz - VoteSmart</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        🗳️ VoteSmart
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="/voter-guide">
+            Voter Guide
+        </a>
+
+        <a href="/quiz">
+            Quiz
+        </a>
+
+        <a href="/feedback">
+            Feedback
+        </a>
+
+    </div>
+
+</nav>
+
+
+<section class="features">
+
+    <h1>🧠 Voter Awareness Quiz</h1>
+
+    <p class="section-subtitle">
+        Test your knowledge!
+    </p>
+
+
+    <form method="POST"
+          action="/quiz-result">
+
+        <div class="feature-card">
+
+            <label>
+                Your Name
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                name="name"
+                required
+                style="padding:10px; width:100%; margin:10px 0 25px;"
+            >
+
+
+            <h3>1. Why is voting important?</h3>
+
+            <p>
+                <input type="radio"
+                       name="q1"
+                       value="a"
+                       required>
+                It has no purpose
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q1"
+                       value="b">
+                It allows citizens to participate
+                in the democratic process
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q1"
+                       value="c">
+                Only politicians benefit
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q1"
+                       value="d">
+                It is only for government employees
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <h3>2. Where should election information be verified?</h3>
+
+            <p>
+                <input type="radio"
+                       name="q2"
+                       value="a"
+                       required>
+                Official election sources
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q2"
+                       value="b">
+                Random social media posts
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q2"
+                       value="c">
+                Unknown forwarded messages
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q2"
+                       value="d">
+                Unverified websites
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <h3>3. What should you do with suspicious election information?</h3>
+
+            <p>
+                <input type="radio"
+                       name="q3"
+                       value="a"
+                       required>
+                Forward it immediately
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q3"
+                       value="b">
+                Ignore all information
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q3"
+                       value="c">
+                Verify it using reliable sources
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q3"
+                       value="d">
+                Change the message
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <h3>4. What is a responsible voter?</h3>
+
+            <p>
+                <input type="radio"
+                       name="q4"
+                       value="a"
+                       required>
+                Someone who shares rumours
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q4"
+                       value="b">
+                Someone who seeks reliable information
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q4"
+                       value="c">
+                Someone who avoids all information
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q4"
+                       value="d">
+                Someone who forwards everything
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <h3>5. What should citizens protect?</h3>
+
+            <p>
+                <input type="radio"
+                       name="q5"
+                       value="a"
+                       required>
+                Their personal information
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q5"
+                       value="b">
+                Rumours
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q5"
+                       value="c">
+                Fake news
+            </p>
+
+            <p>
+                <input type="radio"
+                       name="q5"
+                       value="d">
+                Unverified links
+            </p>
+
+        </div>
+
+
+        <br>
+
+        <button
+            type="submit"
+            class="btn primary">
+            Submit Quiz
+        </button>
+
+    </form>
+
+</section>
+
+</body>
+</html>

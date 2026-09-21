@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result - VoteSmart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">🗳️ VoteSmart</div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/voter-guide">Voter Guide</a>
+        <a href="/rights">Rights</a>
+        <a href="/quiz">Quiz</a>
+        <a href="/feedback">Feedback</a>
+    </div>
+</nav>
+
+<section class="features">
+    <div class="hero-card">
+        <div class="vote-icon">🎉</div>
+
+        <h1>Quiz Completed!</h1>
+        <h2>{{ name }}</h2>
+
+        <p>Your score is:</p>
+        <h1>{{ score }} / {{ total }}</h1>
+
+        <p><strong>Percentage: {{ percentage }}%</strong></p>
+
+        {% if score >= 4 %}
+            <p>🌟 Excellent! You have good voter awareness.</p>
+        {% elif score >= 3 %}
+            <p>👍 Good job! Keep learning.</p>
+        {% else %}
+            <p>📚 Keep learning about voter awareness.</p>
+        {% endif %}
+
+        <br>
+
+        <a href="/quiz" class="btn primary">Try Again</a>
+        <a href="/" class="btn secondary">Home</a>
+    </div>
+</section>
+
+</body>
+</html>
