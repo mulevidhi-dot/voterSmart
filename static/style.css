@@ -1,0 +1,760 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f9fc;
+    color: #172033;
+    line-height: 1.6;
+}
+
+
+/* NAVBAR */
+
+.navbar {
+    height: 75px;
+    background: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 7%;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 28px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #172033;
+    font-weight: 600;
+}
+
+.nav-links a:hover {
+    color: #3857ff;
+}
+
+
+/* HERO */
+
+.hero {
+    padding: 90px 7%;
+    background: linear-gradient(
+        135deg,
+        #eef2ff,
+        #ffffff
+    );
+}
+
+.hero-content {
+    max-width: 1150px;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+
+    gap: 60px;
+    align-items: center;
+}
+
+
+.hero h1 {
+    font-size: 64px;
+    line-height: 1.1;
+
+    margin: 20px 0;
+}
+
+.hero h1 span {
+    color: #4055d8;
+}
+
+.hero p {
+    font-size: 19px;
+    color: #606b7e;
+
+    max-width: 600px;
+}
+
+.hero-buttons {
+    margin-top: 30px;
+
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    display: inline-block;
+
+    padding: 13px 23px;
+
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    font-weight: bold;
+}
+
+.primary {
+    background: #4055d8;
+    color: white;
+}
+
+.secondary {
+    background: white;
+    color: #4055d8;
+
+    border: 2px solid #4055d8;
+}
+
+
+/* HERO CARD */
+
+.hero-card {
+    background: white;
+
+    padding: 50px 30px;
+
+    text-align: center;
+
+    border-radius: 25px;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.vote-icon {
+    font-size: 90px;
+    margin-bottom: 20px;
+}
+
+.hero-card h2 {
+    font-size: 28px;
+}
+
+
+/* FEATURES */
+
+.features {
+    padding: 80px 7%;
+
+    text-align: center;
+}
+
+.features h2 {
+    font-size: 38px;
+}
+
+.section-subtitle {
+    color: #687386;
+    margin: 10px auto 40px;
+}
+
+.feature-grid {
+    max-width: 1150px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+.feature-card {
+    background: white;
+
+    padding: 30px 22px;
+
+    border-radius: 18px;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+
+    text-align: left;
+}
+
+.feature-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #687386;
+    margin-bottom: 15px;
+}
+
+.feature-card a {
+    color: #4055d8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+/* CTA */
+
+.cta {
+    margin: 30px 7% 80px;
+
+    padding: 60px;
+
+    border-radius: 25px;
+
+    text-align: center;
+
+    background: #4055d8;
+    color: white;
+}
+
+.cta h2 {
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+.cta p {
+    margin-bottom: 25px;
+}
+
+
+/* FOOTER */
+
+footer {
+    background: #172033;
+    color: white;
+
+    text-align: center;
+
+    padding: 25px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 850px) {
+
+    .navbar {
+        height: auto;
+        padding: 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 45px;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+@media (max-width: 550px) {
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+}
+/* =========================================
+   VOTER GUIDE PAGE
+========================================= */
+
+.guide-header {
+    text-align: center;
+    padding: 45px 20px 25px;
+}
+
+.guide-header h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.guide-header p {
+    font-size: 18px;
+    color: #60708a;
+}
+
+
+/* TOP FOUR CARDS */
+
+.guide-section {
+    padding: 20px 7% 35px;
+}
+
+.guide-grid {
+    max-width: 1200px;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 22px;
+}
+
+.guide-card {
+    background: white;
+
+    padding: 28px 24px;
+
+    border-radius: 18px;
+
+    min-height: 330px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+
+    transition: 0.25s;
+}
+
+.guide-card:hover {
+    transform: translateY(-5px);
+}
+
+.guide-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.guide-card h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.guide-card p {
+    color: #60708a;
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+.guide-card strong {
+    color: #3656d8;
+}
+
+.guide-button {
+    display: inline-block;
+
+    margin-top: 20px;
+
+    padding: 11px 16px;
+
+    border: 1px solid #8ba5ff;
+
+    border-radius: 10px;
+
+    color: #2455db;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    background: #f7f9ff;
+}
+
+.guide-button:hover {
+    background: #eaf0ff;
+}
+
+
+/* =========================================
+   INFORMATION CARDS
+========================================= */
+
+.information-section {
+    max-width: 1200px;
+
+    margin: 10px auto 50px;
+
+    padding: 0 20px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 22px;
+}
+
+.info-card {
+    padding: 28px;
+
+    border-radius: 18px;
+
+    background: white;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+
+    border: 1px solid #edf0f7;
+}
+
+.info-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+.info-title h2 {
+    font-size: 21px;
+}
+
+.info-icon {
+    font-size: 28px;
+}
+
+
+/* DIFFERENT CARD BACKGROUNDS */
+
+.eligibility-card {
+    background: #f1fff7;
+}
+
+.documents-card {
+    background: #f2f8ff;
+}
+
+.official-card {
+    background: #f7f4ff;
+}
+
+.sir-card {
+    background: #fff8ee;
+}
+
+
+/* LISTS */
+
+.info-card ul {
+    padding-left: 22px;
+
+    margin: 15px 0;
+}
+
+.info-card li {
+    margin-bottom: 11px;
+
+    color: #43546d;
+}
+
+.info-card p {
+    color: #52647d;
+
+    line-height: 1.65;
+}
+
+.info-card h3 {
+    margin-top: 20px;
+
+    margin-bottom: 10px;
+}
+
+
+/* BUTTON */
+
+.info-button {
+    display: inline-block;
+
+    margin-top: 10px;
+
+    padding: 11px 17px;
+
+    border: 1px solid #7fa0ff;
+
+    border-radius: 10px;
+
+    color: #2455db;
+
+    background: white;
+
+    text-decoration: none;
+
+    font-weight: bold;
+}
+
+.info-button:hover {
+    background: #eef3ff;
+}
+
+
+/* SMALL NOTE */
+
+.small-note {
+    font-size: 13px !important;
+
+    background: rgba(255, 255, 255, 0.7);
+
+    padding: 12px;
+
+    border-radius: 10px;
+}
+
+
+/* OFFICIAL LINKS */
+
+.official-link {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin: 17px 0;
+
+    font-size: 15px;
+}
+
+.official-link a {
+    color: #2455db;
+
+    font-weight: bold;
+}
+
+.official-note {
+    margin-top: 18px;
+
+    padding: 14px;
+
+    border-radius: 10px;
+
+    background: #ece9ff;
+
+    color: #4c4a70;
+
+    font-size: 13px;
+}
+
+
+/* SIR NOTICE */
+
+.sir-note {
+    margin-top: 18px;
+
+    padding: 14px;
+
+    border-radius: 10px;
+
+    background: #fff0d8;
+
+    color: #6f5225;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   REGISTRATION STEPS
+========================================= */
+
+.steps-section {
+    max-width: 1200px;
+
+    margin: 60px auto;
+
+    padding: 0 20px;
+
+    text-align: center;
+}
+
+.steps-section > h2 {
+    font-size: 34px;
+
+    margin-bottom: 8px;
+}
+
+.steps-subtitle {
+    color: #68778e;
+
+    margin-bottom: 35px;
+}
+
+.steps-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.step-card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 16px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+
+    text-align: left;
+}
+
+.step-number {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #4055d8;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 18px;
+
+    margin-bottom: 15px;
+}
+
+.step-card h3 {
+    margin-bottom: 8px;
+}
+
+.step-card p {
+    color: #68778e;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   IMPORTANT NOTICE
+========================================= */
+
+.notice-section {
+    max-width: 1200px;
+
+    margin: 40px auto;
+
+    padding: 0 20px;
+}
+
+.notice-box {
+    background: #fff7e8;
+
+    border-left: 5px solid #f0a62b;
+
+    padding: 25px;
+
+    border-radius: 12px;
+}
+
+.notice-box h2 {
+    margin-bottom: 10px;
+}
+
+.notice-box p {
+    color: #665633;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   FINAL CTA
+========================================= */
+
+.guide-cta {
+    max-width: 1200px;
+
+    margin: 50px auto 70px;
+
+    padding: 35px;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+    background: #4055d8;
+
+    color: white;
+}
+
+.guide-cta h2 {
+    font-size: 32px;
+
+    margin-bottom: 8px;
+}
+
+.guide-cta p {
+    font-size: 17px;
+}
+
+
+/* =========================================
+   MOBILE RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .guide-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .information-section {
+        grid-template-columns: 1fr;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .guide-header h1 {
+        font-size: 36px;
+    }
+
+    .guide-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .guide-card {
+        min-height: auto;
+    }
+
+}
