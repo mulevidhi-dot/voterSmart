@@ -7,6 +7,38 @@ app = Flask(__name__)
 # Keep the database beside app.py so the path works locally and on Render.
 DATABASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database.db")
 
+# Dictionary mapping raw answer codes (a, b, c, d) to full text labels
+ANSWER_MAP = {
+    "q1": {
+        "a": "A — It is mandatory for all citizens",
+        "b": "B — It allows citizens to participate in the democratic process",
+        "c": "C — It guarantees financial rewards",
+        "d": "D — It is only for political leaders"
+    },
+    "q2": {
+        "a": "A — Official election sources",
+        "b": "B — Unverified social media posts",
+        "c": "C — Anonymous WhatsApp messages",
+        "d": "D — Random blogs"
+    },
+    "q3": {
+        "a": "a", "b": "b",
+        "c": "C — Verify it using reliable sources",
+        "d": "d"
+    },
+    "q4": {
+        "a": "a",
+        "b": "B — Someone who seeks reliable information",
+        "c": "c", "d": "d"
+    },
+    "q5": {
+        "a": "A — Having a Voter ID card only",
+        "b": "B — Having your name registered in the official Electoral Roll",
+        "c": "C — Having an Aadhaar card only",
+        "d": "D — Having a driver's license only"
+    }
+}
+
 
 def get_db():
     conn = sqlite3.connect(DATABASE)
@@ -29,7 +61,7 @@ def init_db():
         )
     """)
 
-    # Quiz table. q1-q5 store the exact answers selected by each person.
+    # Quiz table
     conn.execute("""
         CREATE TABLE IF NOT EXISTS quiz_results (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -45,8 +77,7 @@ def init_db():
         )
     """)
 
-    # If an older database is already deployed, add the answer columns
-    # without deleting the existing quiz records.
+    # Schema migration for existing tables
     existing_columns = {
         row["name"] for row in conn.execute("PRAGMA table_info(quiz_results)").fetchall()
     }
@@ -98,7 +129,7 @@ def quiz_result():
         "q5": "b"
     }
 
-    answers = {question: request.form.get(question, "") for question in questions}
+    answers = {question: request.form.get(question, "").lower() for question in questions}
     score = sum(
         1 for question in questions
         if answers[question] == correct_answers[question]
@@ -173,13 +204,22 @@ def admin():
         "SELECT COUNT(*) FROM quiz_results"
     ).fetchone()[0]
 
-    results = conn.execute(
+    raw_results = conn.execute(
         """
         SELECT *
         FROM quiz_results
         ORDER BY created_at DESC
         """
     ).fetchall()
+
+    # Convert raw stored answers (a, b, c, d) into full text labels for display
+    formatted_results = []
+    for row in raw_results:
+        row_dict = dict(row)
+        for q in ["q1", "q2", "q3", "q4", "q5"]:
+            raw_val = row_dict.get(q, "")
+            row_dict[q] = ANSWER_MAP.get(q, {}).get(raw_val, raw_val.upper())
+        formatted_results.append(row_dict)
 
     feedbacks = conn.execute(
         """
@@ -189,7 +229,7 @@ def admin():
         """
     ).fetchall()
 
-    # Feedback rating statistics for the admin graph.
+    # Rating statistics for the feedback graph
     rating_stats = []
     for rating in range(5, 0, -1):
         count = conn.execute(
@@ -214,14 +254,14 @@ def admin():
         "admin.html",
         feedback_count=feedback_count,
         quiz_count=quiz_count,
-        results=results,
+        results=formatted_results,
         feedbacks=feedbacks,
         rating_stats=rating_stats,
         average_rating=average_rating
     )
 
 
-# Initialize tables when Flask starts, including when Render/Gunicorn imports app.
+# Initialize DB tables
 init_db()
 
 
