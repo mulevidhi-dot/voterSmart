@@ -95,7 +95,7 @@ def quiz_result():
         "q2": "a",
         "q3": "c",
         "q4": "b",
-        "q5": "a"
+        "q5": "b"
     }
 
     answers = {question: request.form.get(question, "") for question in questions}
