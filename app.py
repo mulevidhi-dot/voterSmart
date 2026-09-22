@@ -7,7 +7,7 @@ app = Flask(__name__)
 # Keep the database beside app.py so the path works locally and on Render.
 DATABASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database.db")
 
-# Dictionary mapping raw answer codes (a, b, c, d) to full text labels
+# Complete mapping dictionary for transforming raw choices into descriptive labels
 ANSWER_MAP = {
     "q1": {
         "a": "A — It is mandatory for all citizens",
@@ -22,19 +22,21 @@ ANSWER_MAP = {
         "d": "D — Random blogs"
     },
     "q3": {
-        "a": "a", "b": "b",
+        "a": "A — Believe it immediately",
+        "b": "B — Forward it to all your contacts",
         "c": "C — Verify it using reliable sources",
-        "d": "d"
+        "d": "D — Ignore official sources"
     },
     "q4": {
-        "a": "a",
+        "a": "A — Someone who spreads unverified news",
         "b": "B — Someone who seeks reliable information",
-        "c": "c", "d": "d"
+        "c": "C — Someone who ignores elections completely",
+        "d": "D — Someone who votes based on rumours"
     },
     "q5": {
         "a": "A — Having a Voter ID card only",
         "b": "B — Having your name registered in the official Electoral Roll",
-        "c": "C — Having an Aadhaar card only",
+        "c": "C — Having an identity card only",
         "d": "D — Having a driver's license only"
     }
 }
@@ -77,7 +79,7 @@ def init_db():
         )
     """)
 
-    # Schema migration for existing tables
+    # Dynamic schema update for answer columns on existing DB deployments
     existing_columns = {
         row["name"] for row in conn.execute("PRAGMA table_info(quiz_results)").fetchall()
     }
@@ -129,7 +131,7 @@ def quiz_result():
         "q5": "b"
     }
 
-    answers = {question: request.form.get(question, "").lower() for question in questions}
+    answers = {question: request.form.get(question, "").strip().lower() for question in questions}
     score = sum(
         1 for question in questions
         if answers[question] == correct_answers[question]
@@ -212,13 +214,17 @@ def admin():
         """
     ).fetchall()
 
-    # Convert raw stored answers (a, b, c, d) into full text labels for display
+    # Safely convert raw answers to full text labels
     formatted_results = []
     for row in raw_results:
         row_dict = dict(row)
         for q in ["q1", "q2", "q3", "q4", "q5"]:
-            raw_val = row_dict.get(q, "")
-            row_dict[q] = ANSWER_MAP.get(q, {}).get(raw_val, raw_val.upper())
+            raw_val = row_dict.get(q)
+            if raw_val:
+                raw_val_str = str(raw_val).lower()
+                row_dict[q] = ANSWER_MAP.get(q, {}).get(raw_val_str, raw_val_str.upper())
+            else:
+                row_dict[q] = "Not recorded for this older attempt"
         formatted_results.append(row_dict)
 
     feedbacks = conn.execute(
@@ -229,7 +235,7 @@ def admin():
         """
     ).fetchall()
 
-    # Rating statistics for the feedback graph
+    # Rating statistics calculation
     rating_stats = []
     for rating in range(5, 0, -1):
         count = conn.execute(
@@ -261,7 +267,7 @@ def admin():
     )
 
 
-# Initialize DB tables
+# Ensure database tables are created on app start
 init_db()
 
 
