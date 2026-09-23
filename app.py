@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request
-import sqlite3
+import psycopg2
+from psycopg2.extras import RealDictCursor
 import os
 
 app = Flask(__name__)
 
-# Keep the database beside app.py so the path works locally and on Render.
-DATABASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database.db")
+# Fetch database connection URL from Render environment variables or local fallback
+DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/votersmart")
 
 # Complete mapping dictionary for transforming raw choices into descriptive labels
 ANSWER_MAP = {
@@ -43,31 +44,31 @@ ANSWER_MAP = {
 
 
 def get_db():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
     return conn
 
 
 def init_db():
     conn = get_db()
+    cur = conn.cursor()
 
     # Feedback table
-    conn.execute("""
+    cur.execute("""
         CREATE TABLE IF NOT EXISTS feedback (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT,
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255),
             message TEXT NOT NULL,
             rating INTEGER,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
+        );
     """)
 
     # Quiz table
-    conn.execute("""
+    cur.execute("""
         CREATE TABLE IF NOT EXISTS quiz_results (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(255),
             score INTEGER,
             total INTEGER,
             q1 TEXT,
@@ -76,19 +77,11 @@ def init_db():
             q4 TEXT,
             q5 TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
+        );
     """)
 
-    # Dynamic schema update for answer columns on existing DB deployments
-    existing_columns = {
-        row["name"] for row in conn.execute("PRAGMA table_info(quiz_results)").fetchall()
-    }
-
-    for column in ["q1", "q2", "q3", "q4", "q5"]:
-        if column not in existing_columns:
-            conn.execute(f"ALTER TABLE quiz_results ADD COLUMN {column} TEXT")
-
     conn.commit()
+    cur.close()
     conn.close()
 
 
@@ -138,11 +131,12 @@ def quiz_result():
     )
 
     conn = get_db()
-    conn.execute(
+    cur = conn.cursor()
+    cur.execute(
         """
         INSERT INTO quiz_results
         (name, score, total, q1, q2, q3, q4, q5)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """,
         (
             name,
@@ -156,6 +150,7 @@ def quiz_result():
         )
     )
     conn.commit()
+    cur.close()
     conn.close()
 
     percentage = round((score / len(questions)) * 100, 1)
@@ -177,16 +172,21 @@ def feedback():
         message = request.form.get("message", "").strip()
         rating = request.form.get("rating")
 
+        # Convert rating to int if present
+        rating_val = int(rating) if rating and rating.isdigit() else None
+
         conn = get_db()
-        conn.execute(
+        cur = conn.cursor()
+        cur.execute(
             """
             INSERT INTO feedback
             (name, email, message, rating)
-            VALUES (?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s)
             """,
-            (name, email, message, rating)
+            (name, email, message, rating_val)
         )
         conn.commit()
+        cur.close()
         conn.close()
 
         return render_template("feedback.html", submitted=True)
@@ -197,22 +197,22 @@ def feedback():
 @app.route("/admin")
 def admin():
     conn = get_db()
+    cur = conn.cursor()
 
-    feedback_count = conn.execute(
-        "SELECT COUNT(*) FROM feedback"
-    ).fetchone()[0]
+    cur.execute("SELECT COUNT(*) AS count FROM feedback")
+    feedback_count = cur.fetchone()["count"]
 
-    quiz_count = conn.execute(
-        "SELECT COUNT(*) FROM quiz_results"
-    ).fetchone()[0]
+    cur.execute("SELECT COUNT(*) AS count FROM quiz_results")
+    quiz_count = cur.fetchone()["count"]
 
-    raw_results = conn.execute(
+    cur.execute(
         """
         SELECT *
         FROM quiz_results
         ORDER BY created_at DESC
         """
-    ).fetchall()
+    )
+    raw_results = cur.fetchall()
 
     # Safely convert raw answers to full text labels
     formatted_results = []
@@ -227,21 +227,23 @@ def admin():
                 row_dict[q] = "Not recorded for this older attempt"
         formatted_results.append(row_dict)
 
-    feedbacks = conn.execute(
+    cur.execute(
         """
         SELECT *
         FROM feedback
         ORDER BY created_at DESC
         """
-    ).fetchall()
+    )
+    feedbacks = cur.fetchall()
 
     # Rating statistics calculation
     rating_stats = []
     for rating in range(5, 0, -1):
-        count = conn.execute(
-            "SELECT COUNT(*) FROM feedback WHERE rating = ?",
+        cur.execute(
+            "SELECT COUNT(*) AS count FROM feedback WHERE rating = %s",
             (rating,)
-        ).fetchone()[0]
+        )
+        count = cur.fetchone()["count"]
         percentage = round((count * 100.0) / feedback_count, 1) if feedback_count else 0
         rating_stats.append({
             "rating": rating,
@@ -249,11 +251,11 @@ def admin():
             "percentage": percentage
         })
 
-    average_rating = conn.execute(
-        "SELECT AVG(rating) FROM feedback WHERE rating IS NOT NULL"
-    ).fetchone()[0]
-    average_rating = round(average_rating, 1) if average_rating is not None else 0
+    cur.execute("SELECT AVG(rating) AS avg FROM feedback WHERE rating IS NOT NULL")
+    avg_row = cur.fetchone()
+    average_rating = round(avg_row["avg"], 1) if avg_row and avg_row["avg"] is not None else 0
 
+    cur.close()
     conn.close()
 
     return render_template(
@@ -267,7 +269,7 @@ def admin():
     )
 
 
-# Ensure database tables are created on app start
+# Ensure database tables exist on startup
 init_db()
 
 
